@@ -1,11 +1,7 @@
 package com.example.basekotlinapp.api
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.basekotlinapp.TAG
 import com.example.basekotlinapp.model.ModelItem
-import org.koin.core.component.KoinComponent
 import retrofit2.Response
 
 class DummyData {
@@ -37,7 +33,6 @@ class DummyData {
 
     fun fetchItemById(id: String): Response<ModelItem> {
         val item = itemsLiveData.value?.firstOrNull { it.id == id } ?: defaultModelItem
-        Log.i(TAG, "fetchItemById: $item")
         return Response.success(item)
     }
 

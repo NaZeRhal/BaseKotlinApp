@@ -1,6 +1,5 @@
 package com.example.basekotlinapp.repository
 
-import android.util.Log
 import com.example.basekotlinapp.TAG
 import com.example.basekotlinapp.api.ModelApi
 import com.example.basekotlinapp.model.ModelItem
@@ -30,7 +29,6 @@ class ModelRepositoryImpl(private val modelApi: ModelApi) : ModelRepository {
 
     override fun getItemById(id: String): Flow<Resource<ModelItem>> = flow {
         emit(Resource.Loading<ModelItem>())
-        Log.i(TAG, "getItemById: repo")
         val result: Resource<ModelItem> = getResponse(
             request = { modelApi.fetchItemById(id) },
             defaultErrorMessage = "Error fetching item by id"

@@ -1,7 +1,6 @@
 package com.example.basekotlinapp
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,11 +17,7 @@ class DetailsFragment private constructor() : Fragment() {
 
     private var onAddOrUpdateClickListener: OnAddOrUpdateClickListener? = null
 
-    private val modelItemId: String? by lazy {
-        val id = arguments?.getString(ITEM_ID_KEY)
-        Log.i(TAG, "lazyId: $id")
-        id
-    }
+    private val modelItemId: String? by lazy { arguments?.getString(ITEM_ID_KEY) }
 
     private val detailViewModel: DetailViewModel by viewModel { parametersOf(modelItemId) }
 

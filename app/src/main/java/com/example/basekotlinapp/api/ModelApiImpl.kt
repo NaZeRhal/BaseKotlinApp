@@ -1,6 +1,5 @@
 package com.example.basekotlinapp.api
 
-import android.util.Log
 import com.example.basekotlinapp.model.ModelItem
 import kotlinx.coroutines.delay
 import retrofit2.Response
@@ -9,7 +8,6 @@ class ModelApiImpl(private val dummyData: DummyData) : ModelApi {
 
     override suspend fun fetchItems(): Response<List<ModelItem>> {
         delay(1000)
-        Log.i("DBG", "fetchPosts: ${DummyData().fetchList().body()}")
         return dummyData.fetchList()
     }
 
@@ -24,10 +22,10 @@ class ModelApiImpl(private val dummyData: DummyData) : ModelApi {
     }
 
     override suspend fun update(itemId: String, item: ModelItem): Response<Any> {
-        TODO("Not yet implemented")
+        return Response.success(false)
     }
 
     override suspend fun deleteItem(itemId: String): Response<Any> {
-        TODO("Not yet implemented")
+        return Response.success(false)
     }
 }

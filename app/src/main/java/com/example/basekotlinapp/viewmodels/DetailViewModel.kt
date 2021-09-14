@@ -1,11 +1,9 @@
 package com.example.basekotlinapp.viewmodels
 
-import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.*
 import com.example.basekotlinapp.R
-import com.example.basekotlinapp.TAG
 import com.example.basekotlinapp.model.ModelItem
 import com.example.basekotlinapp.repository.ModelRepository
 import com.example.basekotlinapp.utils.Resource
@@ -18,16 +16,12 @@ class DetailViewModel(
     private val modelRepository: ModelRepository
 ) : ViewModel() {
 
-    private val _modelItemId: MutableLiveData<String?> by lazy {
-        Log.i(TAG, "${modelItemId}: ")
-        MutableLiveData(modelItemId)
-    }
+    private val _modelItemId: MutableLiveData<String?> by lazy { MutableLiveData(modelItemId) }
 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
 
     val isLoading = _modelItemId.distinctUntilChanged().switchMap { id ->
-        Log.i(TAG, "distinct: $id")
         liveData {
             emit(true)
             if (id != null) {
@@ -41,7 +35,6 @@ class DetailViewModel(
                 }
             } else {
                 setupFields(null)
-                Log.i(TAG, "false: ")
                 emit(false)
             }
         }
@@ -87,7 +80,6 @@ class DetailViewModel(
 
     private fun setupFields(modelItem: ModelItem?) {
         if (modelItem == null) {
-            Log.i(TAG, "setupFields: ")
             code.set("")
             title.set("")
             name.set("")
