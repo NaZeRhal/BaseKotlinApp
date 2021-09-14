@@ -1,27 +1,30 @@
 package com.example.basekotlinapp
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import com.example.basekotlinapp.adapter.PostRecyclerAdapter
+import com.example.basekotlinapp.adapter.ItemRecyclerAdapter
 import com.example.basekotlinapp.adapter.bindAdapter
-import com.example.basekotlinapp.data.DummyData
 import com.example.basekotlinapp.databinding.FragmentListBinding
-import com.example.basekotlinapp.model.Post
 import com.example.basekotlinapp.viewmodels.ListViewModel
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class ListFragment : Fragment(), PostRecyclerAdapter.OnPostClickListener {
+class ListFragment : Fragment(), ItemRecyclerAdapter.OnItemClickListener {
 
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding
 
-    private val viewModel: ListViewModel by viewModel()
+    private val listViewModel: ListViewModel by viewModel()
+
+    private var onItemClickListener: OnItemClickListener? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        onItemClickListener = activity as? OnItemClickListener
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,20 +41,26 @@ class ListFragment : Fragment(), PostRecyclerAdapter.OnPostClickListener {
     }
 
     private fun bindView() {
-        binding?.listViewModel = viewModel
+        binding?.apply {
+            viewModel = listViewModel
+            lifecycleOwner = requireActivity()
+        }
     }
 
     private fun initView() {
-        val postAdapter = PostRecyclerAdapter()
-        postAdapter.setOnPostClickListener(this)
-        binding?.rvList?.bindAdapter(postAdapter)
+        val itemAdapter = ItemRecyclerAdapter()
+        itemAdapter.setOnItemClickListener(this)
+        binding?.apply {
+            rvList.bindAdapter(itemAdapter)
+            fabAdd.setOnClickListener { onItemClickListener?.onAddNewItemClick() }
+        }
 
-        viewModel.posts.observe(viewLifecycleOwner, { posts ->
-            posts?.let { postAdapter.setPosts(it) }
+        listViewModel.items.observe(viewLifecycleOwner, { items ->
+            items?.let { itemAdapter.setItems(it) }
 
         })
 
-        viewModel.errorMessage.observe(viewLifecycleOwner, { msg ->
+        listViewModel.errorMessage.observe(viewLifecycleOwner, { msg ->
             if (msg != null) {
                 showErrorMessage(msg)
             }
@@ -65,16 +74,17 @@ class ListFragment : Fragment(), PostRecyclerAdapter.OnPostClickListener {
         }
     }
 
-    override fun onPostClick(post: Post) {
-        parentFragmentManager.commit {
-            val detailFragment = DetailsFragment.newInstance(post)
-            setReorderingAllowed(true)
-            replace(R.id.fcv_container, detailFragment)
-            addToBackStack(null)
-        }
+    override fun onItemClick(modelItemId: String?) {
+        onItemClickListener?.onViewDetailsClick(modelItemId)
     }
 
     companion object {
         const val TAG = "ListFragment"
     }
+
+    interface OnItemClickListener {
+        fun onAddNewItemClick()
+        fun onViewDetailsClick(modelItemId: String?)
+    }
+
 }

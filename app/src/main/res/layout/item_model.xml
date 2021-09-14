@@ -18,13 +18,13 @@
         android:layout_gravity="center">
 
         <TextView
-            android:id="@+id/tv_id"
+            android:id="@+id/tv_code"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="20"
             android:gravity="center_horizontal"
-            android:textSize="16sp"
-            tools:text="id" />
+            android:textSize="20sp"
+            tools:text="code" />
 
         <TextView
             android:id="@+id/tv_title"

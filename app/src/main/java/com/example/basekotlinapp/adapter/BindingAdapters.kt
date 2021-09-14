@@ -13,10 +13,10 @@ fun toggleVisibility(v: View, isVisible: Boolean) {
 }
 
 @BindingAdapter("bindAdapter")
-fun RecyclerView.bindAdapter(postAdapter: PostRecyclerAdapter) {
+fun RecyclerView.bindAdapter(itemAdapter: ItemRecyclerAdapter) {
     this.run {
         hasFixedSize()
         layoutManager = LinearLayoutManager(this.context)
-        adapter = postAdapter
+        adapter = itemAdapter
     }
 }
