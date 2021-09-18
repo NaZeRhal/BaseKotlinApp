@@ -3,7 +3,7 @@ package com.example.basekotlinapp.data.api
 import com.example.basekotlinapp.model.ItemModel
 import retrofit2.Response
 
-interface ModelApi {
+interface ItemRestApi {
 
     suspend fun fetchItems(): Response<List<ItemModel>>
 

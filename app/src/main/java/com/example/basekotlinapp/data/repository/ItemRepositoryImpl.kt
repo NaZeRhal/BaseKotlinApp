@@ -1,6 +1,6 @@
 package com.example.basekotlinapp.data.repository
 
-import com.example.basekotlinapp.data.api.ModelApi
+import com.example.basekotlinapp.data.api.ItemRestApi
 import com.example.basekotlinapp.data.local.ItemDao
 import com.example.basekotlinapp.data.local.ItemRoomModel
 import com.example.basekotlinapp.model.ItemModel
@@ -12,14 +12,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
-class ItemRepositoryImpl(private val modelApi: ModelApi, private val itemDao: ItemDao) :
+class ItemRepositoryImpl(private val itemRestApi: ItemRestApi, private val itemDao: ItemDao) :
     ItemRepository {
 
     override fun getItems(): Flow<ExecutionResult<List<ItemModel>>> = networkBoundResource(
         localQuery = { itemDao.findAll().map { ModelMapping.itemRoomToItemModel(it) } },
         remoteRequest = {
             getResponse(
-                request = { modelApi.fetchItems() },
+                request = { itemRestApi.fetchItems() },
                 defaultErrorMessage = "Error fetching items"
             )
         },
@@ -37,7 +37,7 @@ class ItemRepositoryImpl(private val modelApi: ModelApi, private val itemDao: It
         localQuery = { itemDao.findByRemoteId(id).map { ModelMapping.itemRoomToItemModel(it) } },
         remoteRequest = {
             getResponse(
-                request = { modelApi.fetchItemById(id) },
+                request = { itemRestApi.fetchItemById(id) },
                 defaultErrorMessage = "Error fetching item by id"
             )
         },
@@ -49,7 +49,7 @@ class ItemRepositoryImpl(private val modelApi: ModelApi, private val itemDao: It
     override fun addItem(itemModel: ItemModel): Flow<ExecutionResult<ItemModel>> = flow {
         emit(ExecutionResult.Loading())
         val result = getResponse(
-            request = { modelApi.addItem(itemModel) },
+            request = { itemRestApi.addItem(itemModel) },
             defaultErrorMessage = "Error adding item to remote source"
         )
         when (result) {
@@ -76,7 +76,7 @@ class ItemRepositoryImpl(private val modelApi: ModelApi, private val itemDao: It
         flow {
             emit(ExecutionResult.Loading())
             val result = getResponse(
-                request = { modelApi.update(itemModel.id, itemModel) },
+                request = { itemRestApi.update(itemModel.id, itemModel) },
                 defaultErrorMessage = "Error updating item"
             )
             when (result) {
@@ -92,7 +92,7 @@ class ItemRepositoryImpl(private val modelApi: ModelApi, private val itemDao: It
     override fun deleteItem(itemModel: ItemModel): Flow<ExecutionResult<ItemModel>> = flow {
         emit(ExecutionResult.Loading())
         val result = getResponse(
-            request = { modelApi.deleteItemById(itemModel.id) },
+            request = { itemRestApi.deleteItemById(itemModel.id) },
             defaultErrorMessage = "Error deleting item"
         )
         when (result) {

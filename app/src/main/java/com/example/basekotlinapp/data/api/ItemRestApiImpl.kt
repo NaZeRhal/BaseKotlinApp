@@ -4,7 +4,7 @@ import com.example.basekotlinapp.model.ItemModel
 import kotlinx.coroutines.delay
 import retrofit2.Response
 
-class ModelApiImpl(private val dummyRemoteDb: DummyRemoteDb) : ModelApi {
+class ItemRestApiImpl(private val dummyRemoteDb: DummyRemoteDb) : ItemRestApi {
 
     override suspend fun fetchItems(): Response<List<ItemModel>> {
         delay(1000)
