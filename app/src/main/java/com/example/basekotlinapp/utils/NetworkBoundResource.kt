@@ -1,7 +1,31 @@
 package com.example.basekotlinapp.utils
 
 import android.util.Log
+import kotlinx.coroutines.flow.*
 import retrofit2.Response
+
+
+inline fun <reified ResultType, reified RequestType> networkBoundResource(
+    crossinline localQuery: () -> Flow<ResultType>,
+    crossinline remoteRequest: suspend () -> Resource<RequestType>,
+    crossinline saveFetchResult: suspend (Resource<RequestType>) -> Unit,
+    crossinline shouldFetch: (ResultType) -> Boolean = { true },
+) = flow {
+    emit(Resource.Loading())
+    val data = localQuery().first()
+    if (shouldFetch(data)) {
+        emit(Resource.Loading())
+        val response = remoteRequest()
+        if (response is Resource.Success) {
+            saveFetchResult(response)
+            emitAll(localQuery().map { Resource.Success(it) })
+        } else if (response is Resource.Error) {
+            emitAll(localQuery().map { Resource.Error<ResultType>(response.error) })
+        }
+    } else {
+        emitAll(localQuery().map { Resource.Success(it) })
+    }
+}
 
 suspend fun <T> getResponse(
     request: suspend () -> Response<T>,

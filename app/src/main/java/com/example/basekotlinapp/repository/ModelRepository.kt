@@ -1,17 +1,16 @@
 package com.example.basekotlinapp.repository
 
-import com.example.basekotlinapp.model.ModelItem
+import com.example.basekotlinapp.model.ItemModel
 import com.example.basekotlinapp.utils.Resource
 import kotlinx.coroutines.flow.Flow
-import retrofit2.Response
 
 interface ModelRepository {
-    fun getItems(): Flow<Resource<List<ModelItem>>>
+    fun getItems(): Flow<Resource<List<ItemModel>>>
 
-    fun getItemById(id: String): Flow<Resource<ModelItem>>
+    fun getItemById(id: String): Flow<Resource<ItemModel>>
 
-    fun addItem(item: ModelItem): Flow<Resource<Any>>
+    fun addItem(itemModel: ItemModel): Flow<Resource<Any>>
 
-    fun updateItem(itemId: String, item: ModelItem): Flow<Resource<ModelItem>>
+    fun updateItem(itemModel: ItemModel): Flow<Resource<ItemModel>>
 
 }

@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.basekotlinapp.databinding.ItemModelBinding
-import com.example.basekotlinapp.model.ModelItem
+import com.example.basekotlinapp.model.ItemModel
 
 class ItemRecyclerAdapter : RecyclerView.Adapter<ItemRecyclerAdapter.ItemViewHolder>() {
     private var onItemClickListener: OnItemClickListener? = null
-    private var items = emptyList<ModelItem>()
+    private var items = emptyList<ItemModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val binding = ItemModelBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -23,33 +23,33 @@ class ItemRecyclerAdapter : RecyclerView.Adapter<ItemRecyclerAdapter.ItemViewHol
 
     inner class ItemViewHolder(private val binding: ItemModelBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(modelItem: ModelItem) {
+        fun bind(itemModel: ItemModel) {
             with(binding) {
-                tvFirstName.text = modelItem.firstName
-                tvLastName.text = modelItem.lastName
-                tvEmail.text = modelItem.email
-                tvPhone.text = modelItem.phone
+                tvFirstName.text = itemModel.firstName
+                tvLastName.text = itemModel.lastName
+                tvEmail.text = itemModel.email
+                tvPhone.text = itemModel.phone
 
                 root.setOnClickListener {
-                    onItemClickListener?.onItemClick(modelItem.id)
+                    onItemClickListener?.onItemClick(itemModel.id)
                 }
             }
         }
     }
 
-    fun setItems(modelItemList: List<ModelItem>) {
-        this.items = modelItemList
+    fun setItems(itemModelList: List<ItemModel>) {
+        this.items = itemModelList
         notifyDataSetChanged()
     }
 
-    fun addItem(modelItem: ModelItem) {
-        items = items + listOf(modelItem)
+    fun addItem(itemModel: ItemModel) {
+        items = items + listOf(itemModel)
         notifyItemInserted(items.size)
     }
 
-    fun removeItem(modelItem: ModelItem) {
-        val position = items.indexOf(modelItem)
-        (items as MutableList).remove(modelItem)
+    fun removeItem(itemModel: ItemModel) {
+        val position = items.indexOf(itemModel)
+        (items as MutableList).remove(itemModel)
         notifyItemRemoved(position)
     }
 

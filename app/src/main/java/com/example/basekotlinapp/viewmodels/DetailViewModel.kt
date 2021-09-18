@@ -4,7 +4,7 @@ import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.*
 import com.example.basekotlinapp.R
-import com.example.basekotlinapp.model.ModelItem
+import com.example.basekotlinapp.model.ItemModel
 import com.example.basekotlinapp.repository.ModelRepository
 import com.example.basekotlinapp.utils.Resource
 import kotlinx.coroutines.flow.collect
@@ -50,8 +50,8 @@ class DetailViewModel(
     val buttonTextRes = ObservableInt(R.string.detail_button_add_text)
 
     fun addOrUpdate() {
-        val item = ModelItem(
-            id = _modelItemId.value ?: Random.nextInt(0, 100).toString(),
+        val item = ItemModel(
+            id = _modelItemId.value ?: "",
             firstName = firstName.get() ?: "",
             lastName = lastName.get() ?: "",
             email = email.get() ?: "",
@@ -65,9 +65,9 @@ class DetailViewModel(
         }
     }
 
-    private fun update(item: ModelItem) {
+    private fun update(itemModel: ItemModel) {
         viewModelScope.launch {
-            modelRepository.updateItem(item.id, item).collect {
+            modelRepository.updateItem(itemModel).collect {
                 if (it is Resource.Error) {
                     _errorMessage.value = it.error.message
                 }
@@ -76,9 +76,9 @@ class DetailViewModel(
         }
     }
 
-    private fun add(item: ModelItem) {
+    private fun add(itemModel: ItemModel) {
         viewModelScope.launch {
-            modelRepository.addItem(item).collect {
+            modelRepository.addItem(itemModel).collect {
                 if (it is Resource.Error) {
                     _errorMessage.value = it.error.message
                 }
@@ -87,18 +87,18 @@ class DetailViewModel(
         }
     }
 
-    private fun setupFields(modelItem: ModelItem?) {
-        if (modelItem == null) {
+    private fun setupFields(itemModel: ItemModel?) {
+        if (itemModel == null) {
             firstName.set("")
             lastName.set("")
             email.set("")
             phone.set("")
             buttonTextRes.set(R.string.detail_button_add_text)
         } else {
-            firstName.set(modelItem.firstName)
-            lastName.set(modelItem.lastName)
-            email.set(modelItem.email)
-            phone.set(modelItem.phone)
+            firstName.set(itemModel.firstName)
+            lastName.set(itemModel.lastName)
+            email.set(itemModel.email)
+            phone.set(itemModel.phone)
             buttonTextRes.set(R.string.detail_button_edit_text)
         }
     }

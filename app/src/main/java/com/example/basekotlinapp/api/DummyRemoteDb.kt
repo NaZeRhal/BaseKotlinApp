@@ -4,17 +4,18 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.basekotlinapp.TAG
-import com.example.basekotlinapp.model.ModelItem
+import com.example.basekotlinapp.model.ItemModel
 import com.google.gson.Gson
 import retrofit2.Response
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
+import kotlin.random.Random
 
 class DummyRemoteDb(private val context: Context) {
 
-    private val itemsLiveData = MutableLiveData<List<ModelItem>>()
-    private val emptyModelItem = ModelItem(
+    private val itemsLiveData = MutableLiveData<List<ItemModel>>()
+    private val emptyModelItem = ItemModel(
         id = "",
         firstName = "",
         lastName = "",
@@ -25,33 +26,42 @@ class DummyRemoteDb(private val context: Context) {
     init {
         val itemsJson = loadAsString("items_db.json")
         Log.i(TAG, ": $itemsJson")
-        val itemsList: List<ModelItem> =
-            Gson().fromJson(itemsJson, Array<ModelItem>::class.java).toList()
+        val itemsList: List<ItemModel> =
+            Gson().fromJson(itemsJson, Array<ItemModel>::class.java).toList()
         itemsLiveData.value = itemsList
     }
 
-    fun fetchList(): Response<List<ModelItem>> = Response.success(itemsLiveData.value)
+    fun fetchList(): Response<List<ItemModel>> = Response.success(itemsLiveData.value)
 
-    fun fetchItemById(id: String): Response<ModelItem> {
+    fun fetchItemById(id: String): Response<ItemModel> {
         val item = itemsLiveData.value?.firstOrNull { it.id == id } ?: emptyModelItem
         return Response.success(item)
     }
 
-    fun addItem(item: ModelItem): Response<Any> {
+    fun addItem(itemModel: ItemModel): Response<String> {
         var items = itemsLiveData.value ?: emptyList()
-        items = listOf(item) + items
+        val addedItemModel = itemModel.run {
+            ItemModel(
+                id = Random.nextInt(0, 100).toString(),
+                firstName = firstName,
+                lastName = lastName,
+                email = email,
+                phone = phone
+            )
+        }
+        items = listOf(addedItemModel) + items
         itemsLiveData.value = items
-        return Response.success(true)
+        return Response.success(addedItemModel.id)
     }
 
-    fun updateItem(itemId: String, item: ModelItem): Response<ModelItem> {
+    fun updateItem(itemId: String, itemModel: ItemModel): Response<ItemModel> {
         var items = itemsLiveData.value ?: emptyList()
         val indexOfOldItem = items.indexOfFirst { it.id == itemId }
         if (indexOfOldItem >= 0) {
-            items = listOf(item) + items - listOf(items[indexOfOldItem])
+            items = listOf(itemModel) + items - listOf(items[indexOfOldItem])
         }
         itemsLiveData.value = items
-        return Response.success(item)
+        return Response.success(itemModel)
     }
 
 

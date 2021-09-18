@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.example.basekotlinapp.model.ModelItem
+import com.example.basekotlinapp.model.ItemModel
 import com.example.basekotlinapp.repository.ModelRepository
 import com.example.basekotlinapp.utils.Resource
 import kotlinx.coroutines.flow.collect
@@ -17,7 +17,7 @@ class ListViewModel(private val modelRepository: ModelRepository) : ViewModel() 
 
     val isLoading = ObservableBoolean(true)
 
-    val items: LiveData<List<ModelItem>> = liveData {
+    val items: LiveData<List<ItemModel>> = liveData {
         modelRepository.getItems().collect {
             when (it) {
                 is Resource.Loading -> isLoading.set(true)
