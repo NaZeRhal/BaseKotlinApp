@@ -4,7 +4,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.*
 import com.example.basekotlinapp.model.ItemModel
 import com.example.basekotlinapp.data.repository.ModelRepository
-import com.example.basekotlinapp.utils.Resource
+import com.example.basekotlinapp.utils.ExecutionResult
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -18,12 +18,12 @@ class ListViewModel(private val modelRepository: ModelRepository) : ViewModel() 
     val items: LiveData<List<ItemModel>> = liveData {
         modelRepository.getItems().collect {
             when (it) {
-                is Resource.Loading -> isLoading.set(true)
-                is Resource.Error -> {
+                is ExecutionResult.Loading -> isLoading.set(true)
+                is ExecutionResult.Error -> {
                     isLoading.set(false)
                     _errorMessage.value = it.error.message
                 }
-                is Resource.Success -> {
+                is ExecutionResult.Success -> {
                     isLoading.set(false)
                     emit(it.data)
                 }

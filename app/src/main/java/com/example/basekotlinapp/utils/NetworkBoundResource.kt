@@ -7,39 +7,39 @@ import retrofit2.Response
 
 inline fun <reified ResultType, reified RequestType> networkBoundResource(
     crossinline localQuery: () -> Flow<ResultType>,
-    crossinline remoteRequest: suspend () -> Resource<RequestType>,
-    crossinline saveFetchResult: suspend (Resource<RequestType>) -> Unit,
+    crossinline remoteRequest: suspend () -> ExecutionResult<RequestType>,
+    crossinline saveFetchResult: suspend (ExecutionResult<RequestType>) -> Unit,
     crossinline shouldFetch: (ResultType) -> Boolean = { true },
 ) = flow {
-    emit(Resource.Loading())
+    emit(ExecutionResult.Loading())
     val data = localQuery().first()
     if (shouldFetch(data)) {
-        emit(Resource.Loading())
+        emit(ExecutionResult.Loading())
         val response = remoteRequest()
-        if (response is Resource.Success) {
+        if (response is ExecutionResult.Success) {
             saveFetchResult(response)
-            emitAll(localQuery().map { Resource.Success(it) })
-        } else if (response is Resource.Error) {
-            emitAll(localQuery().map { Resource.Error<ResultType>(response.error) })
+            emitAll(localQuery().map { ExecutionResult.Success(it) })
+        } else if (response is ExecutionResult.Error) {
+            emitAll(localQuery().map { ExecutionResult.Error<ResultType>(response.error) })
         }
     } else {
-        emitAll(localQuery().map { Resource.Success(it) })
+        emitAll(localQuery().map { ExecutionResult.Success(it) })
     }
 }
 
 suspend fun <T> getResponse(
     request: suspend () -> Response<T>,
     defaultErrorMessage: String
-): Resource<T> {
+): ExecutionResult<T> {
     return try {
         Log.i("DBG", "getResponse: ")
         val result = request.invoke()
         val resultData = result.body()
         when {
-            result.isSuccessful && resultData != null -> Resource.Success(resultData)
-            else -> Resource.Error(Throwable(result.errorBody()?.toString() ?: defaultErrorMessage))
+            result.isSuccessful && resultData != null -> ExecutionResult.Success(resultData)
+            else -> ExecutionResult.Error(Throwable(result.errorBody()?.toString() ?: defaultErrorMessage))
         }
     } catch (e: Throwable) {
-        Resource.Error(e)
+        ExecutionResult.Error(e)
     }
 }

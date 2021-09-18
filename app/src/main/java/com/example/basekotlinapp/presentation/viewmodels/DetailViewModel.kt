@@ -6,7 +6,7 @@ import androidx.lifecycle.*
 import com.example.basekotlinapp.R
 import com.example.basekotlinapp.model.ItemModel
 import com.example.basekotlinapp.data.repository.ModelRepository
-import com.example.basekotlinapp.utils.Resource
+import com.example.basekotlinapp.utils.ExecutionResult
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -26,9 +26,9 @@ class DetailViewModel(
             if (id != null) {
                 modelRepository.getItemById(id).collect {
                     when (it) {
-                        is Resource.Success -> setupFields(it.data)
-                        is Resource.Error -> _errorMessage.value = it.error.message
-                        is Resource.Loading -> emit(true)
+                        is ExecutionResult.Success -> setupFields(it.data)
+                        is ExecutionResult.Error -> _errorMessage.value = it.error.message
+                        is ExecutionResult.Loading -> emit(true)
                     }
                     emit(false)
                 }
@@ -67,7 +67,7 @@ class DetailViewModel(
     private fun update(itemModel: ItemModel) {
         viewModelScope.launch {
             modelRepository.updateItem(itemModel).collect {
-                if (it is Resource.Error) {
+                if (it is ExecutionResult.Error) {
                     _errorMessage.value = it.error.message
                 }
                 buttonClickMarker.value = true
@@ -78,7 +78,7 @@ class DetailViewModel(
     private fun add(itemModel: ItemModel) {
         viewModelScope.launch {
             modelRepository.addItem(itemModel).collect {
-                if (it is Resource.Error) {
+                if (it is ExecutionResult.Error) {
                     _errorMessage.value = it.error.message
                 }
                 buttonClickMarker.value = true
