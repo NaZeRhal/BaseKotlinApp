@@ -1,17 +1,15 @@
-package com.example.basekotlinapp.repository
+package com.example.basekotlinapp.data.repository
 
-import com.example.basekotlinapp.api.ModelApi
-import com.example.basekotlinapp.local.ItemDao
-import com.example.basekotlinapp.local.ItemRoomModel
+import com.example.basekotlinapp.data.api.ModelApi
+import com.example.basekotlinapp.data.local.ItemDao
+import com.example.basekotlinapp.data.local.ItemRoomModel
 import com.example.basekotlinapp.model.ItemModel
 import com.example.basekotlinapp.utils.ModelMapping
 import com.example.basekotlinapp.utils.Resource
 import com.example.basekotlinapp.utils.getResponse
 import com.example.basekotlinapp.utils.networkBoundResource
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
 class ModelRepositoryImpl(private val modelApi: ModelApi, private val itemDao: ItemDao) :
@@ -90,4 +88,19 @@ class ModelRepositoryImpl(private val modelApi: ModelApi, private val itemDao: I
                 else -> emit(Resource.Error(Throwable("Unable to update item in remote data source")))
             }
         }
+
+    override fun deleteItem(itemModel: ItemModel): Flow<Resource<ItemModel>> = flow {
+        emit(Resource.Loading())
+        val result = getResponse(
+            request = { modelApi.deleteItemById(itemModel.id) },
+            defaultErrorMessage = "Error deleting item"
+        )
+        when (result) {
+            is Resource.Success -> {
+                itemDao.deleteByRemoteIds(listOf(itemModel.id))
+                emit(Resource.Success(result.data))
+            }
+            else -> emit(Resource.Error(Throwable("Error deleting contact in remote source")))
+        }
+    }
 }

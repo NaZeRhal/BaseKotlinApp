@@ -1,15 +1,14 @@
-package com.example.basekotlinapp.viewmodels
+package com.example.basekotlinapp.presentation.viewmodels
 
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.*
 import com.example.basekotlinapp.R
 import com.example.basekotlinapp.model.ItemModel
-import com.example.basekotlinapp.repository.ModelRepository
+import com.example.basekotlinapp.data.repository.ModelRepository
 import com.example.basekotlinapp.utils.Resource
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 class DetailViewModel(
     private val modelItemId: String?,

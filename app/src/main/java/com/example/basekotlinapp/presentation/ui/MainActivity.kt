@@ -1,8 +1,9 @@
-package com.example.basekotlinapp
+package com.example.basekotlinapp.presentation.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
+import com.example.basekotlinapp.R
 import com.example.basekotlinapp.databinding.ActivityMainBinding
 
 const val TAG = "DBG"

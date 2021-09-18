@@ -1,4 +1,4 @@
-package com.example.basekotlinapp.repository
+package com.example.basekotlinapp.data.repository
 
 import com.example.basekotlinapp.model.ItemModel
 import com.example.basekotlinapp.utils.Resource
@@ -12,5 +12,7 @@ interface ModelRepository {
     fun addItem(itemModel: ItemModel): Flow<Resource<Any>>
 
     fun updateItem(itemModel: ItemModel): Flow<Resource<ItemModel>>
+
+    fun deleteItem(itemModel: ItemModel): Flow<Resource<ItemModel>>
 
 }

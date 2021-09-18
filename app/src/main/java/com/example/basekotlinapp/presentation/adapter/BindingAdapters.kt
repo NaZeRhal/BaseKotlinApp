@@ -1,4 +1,4 @@
-package com.example.basekotlinapp.adapter
+package com.example.basekotlinapp.presentation.adapter
 
 import android.util.Log
 import android.view.View

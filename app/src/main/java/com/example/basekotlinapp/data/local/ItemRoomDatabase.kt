@@ -1,4 +1,4 @@
-package com.example.basekotlinapp.local
+package com.example.basekotlinapp.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

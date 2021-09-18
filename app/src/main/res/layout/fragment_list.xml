@@ -7,13 +7,13 @@
 
         <variable
             name="viewModel"
-            type="com.example.basekotlinapp.viewmodels.ListViewModel" />
+            type="com.example.basekotlinapp.presentation.viewmodels.ListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ListFragment">
+        tools:context=".presentation.ui.ListFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_list"

@@ -1,6 +1,6 @@
 package com.example.basekotlinapp.utils
 
-import com.example.basekotlinapp.local.ItemRoomModel
+import com.example.basekotlinapp.data.local.ItemRoomModel
 import com.example.basekotlinapp.model.ItemModel
 
 abstract class ModelMapping {

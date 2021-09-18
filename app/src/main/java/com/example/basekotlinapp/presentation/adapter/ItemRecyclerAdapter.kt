@@ -1,14 +1,15 @@
-package com.example.basekotlinapp.adapter
+package com.example.basekotlinapp.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.basekotlinapp.databinding.ItemModelBinding
 import com.example.basekotlinapp.model.ItemModel
 
 class ItemRecyclerAdapter : RecyclerView.Adapter<ItemRecyclerAdapter.ItemViewHolder>() {
     private var onItemClickListener: OnItemClickListener? = null
-    private var items = emptyList<ItemModel>()
+    private val items = mutableListOf<ItemModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val binding = ItemModelBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -38,23 +39,33 @@ class ItemRecyclerAdapter : RecyclerView.Adapter<ItemRecyclerAdapter.ItemViewHol
     }
 
     fun setItems(itemModelList: List<ItemModel>) {
-        this.items = itemModelList
-        notifyDataSetChanged()
+        val diffResult = DiffUtil.calculateDiff(DiffHelper(itemModelList, items))
+        items.clear()
+        items.addAll(itemModelList)
+        diffResult.dispatchUpdatesTo(this)
     }
 
-    fun addItem(itemModel: ItemModel) {
-        items = items + listOf(itemModel)
-        notifyItemInserted(items.size)
-    }
-
-    fun removeItem(itemModel: ItemModel) {
-        val position = items.indexOf(itemModel)
-        (items as MutableList).remove(itemModel)
-        notifyItemRemoved(position)
-    }
+    fun getItemAt(position: Int): ItemModel = items[position]
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
         this.onItemClickListener = listener
+    }
+
+    private class DiffHelper(
+        val newItems: List<ItemModel>,
+        val oldItems: List<ItemModel>
+    ) : DiffUtil.Callback() {
+        override fun getOldListSize(): Int = oldItems.size
+
+        override fun getNewListSize(): Int = newItems.size
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+            oldItems[oldItemPosition].id == newItems[newItemPosition].id
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+            oldItems[oldItemPosition] == newItems[newItemPosition]
+
+
     }
 
     interface OnItemClickListener {

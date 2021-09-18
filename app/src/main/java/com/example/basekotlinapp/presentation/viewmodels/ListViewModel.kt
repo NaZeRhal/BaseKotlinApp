@@ -1,14 +1,12 @@
-package com.example.basekotlinapp.viewmodels
+package com.example.basekotlinapp.presentation.viewmodels
 
 import androidx.databinding.ObservableBoolean
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
+import androidx.lifecycle.*
 import com.example.basekotlinapp.model.ItemModel
-import com.example.basekotlinapp.repository.ModelRepository
+import com.example.basekotlinapp.data.repository.ModelRepository
 import com.example.basekotlinapp.utils.Resource
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class ListViewModel(private val modelRepository: ModelRepository) : ViewModel() {
 
@@ -31,6 +29,14 @@ class ListViewModel(private val modelRepository: ModelRepository) : ViewModel() 
                 }
             }
 
+        }
+    }
+
+    fun delete(itemModel: ItemModel) {
+        viewModelScope.launch {
+            modelRepository.deleteItem(itemModel).collect{
+
+            }
         }
     }
 }

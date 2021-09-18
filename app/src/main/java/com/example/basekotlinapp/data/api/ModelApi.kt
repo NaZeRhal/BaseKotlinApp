@@ -1,4 +1,4 @@
-package com.example.basekotlinapp.api
+package com.example.basekotlinapp.data.api
 
 import com.example.basekotlinapp.model.ItemModel
 import retrofit2.Response
@@ -13,5 +13,5 @@ interface ModelApi {
 
     suspend fun update(itemId: String, itemModel: ItemModel): Response<ItemModel>
 
-    suspend fun deleteItem(itemId: String): Response<Any>
+    suspend fun deleteItemById(itemId: String): Response<ItemModel>
 }

@@ -1,4 +1,4 @@
-package com.example.basekotlinapp
+package com.example.basekotlinapp.presentation.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.basekotlinapp.databinding.FragmentDetailsBinding
-import com.example.basekotlinapp.viewmodels.DetailViewModel
+import com.example.basekotlinapp.presentation.viewmodels.DetailViewModel
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf

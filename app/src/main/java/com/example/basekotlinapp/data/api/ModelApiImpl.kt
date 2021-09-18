@@ -1,4 +1,4 @@
-package com.example.basekotlinapp.api
+package com.example.basekotlinapp.data.api
 
 import com.example.basekotlinapp.model.ItemModel
 import kotlinx.coroutines.delay
@@ -25,7 +25,7 @@ class ModelApiImpl(private val dummyRemoteDb: DummyRemoteDb) : ModelApi {
         return dummyRemoteDb.updateItem(itemId, itemModel)
     }
 
-    override suspend fun deleteItem(itemId: String): Response<Any> {
-        return Response.success(false)
+    override suspend fun deleteItemById(itemId: String): Response<ItemModel> {
+        return dummyRemoteDb.deleteItem(itemId)
     }
 }

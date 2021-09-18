@@ -1,10 +1,10 @@
-package com.example.basekotlinapp.api
+package com.example.basekotlinapp.data.api
 
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.basekotlinapp.TAG
 import com.example.basekotlinapp.model.ItemModel
+import com.example.basekotlinapp.presentation.ui.TAG
 import com.google.gson.Gson
 import retrofit2.Response
 import java.io.BufferedReader
@@ -64,6 +64,14 @@ class DummyRemoteDb(private val context: Context) {
         return Response.success(itemModel)
     }
 
+    fun deleteItem(itemModelId: String): Response<ItemModel> {
+        var items = itemsLiveData.value ?: emptyList()
+        val index = items.indexOfFirst { it.id == itemModelId }
+        val itemForDelete = items[index]
+        items = items - listOf(itemForDelete)
+        itemsLiveData.value = items
+        return Response.success(itemForDelete)
+    }
 
     private fun loadAsString(filename: String): String {
         var result = ""

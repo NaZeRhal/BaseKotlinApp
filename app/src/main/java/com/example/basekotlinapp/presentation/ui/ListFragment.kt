@@ -1,14 +1,17 @@
-package com.example.basekotlinapp
+package com.example.basekotlinapp.presentation.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.basekotlinapp.adapter.ItemRecyclerAdapter
-import com.example.basekotlinapp.adapter.bindAdapter
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.basekotlinapp.databinding.FragmentListBinding
-import com.example.basekotlinapp.viewmodels.ListViewModel
+import com.example.basekotlinapp.presentation.adapter.ItemRecyclerAdapter
+import com.example.basekotlinapp.presentation.adapter.bindAdapter
+import com.example.basekotlinapp.presentation.viewmodels.ListViewModel
+import com.example.basekotlinapp.utils.SwipeToDeleteCallback
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -54,6 +57,20 @@ class ListFragment : Fragment(), ItemRecyclerAdapter.OnItemClickListener {
             rvList.bindAdapter(itemAdapter)
             fabAdd.setOnClickListener { onItemClickListener?.onAddNewItemClick() }
         }
+
+        val swipeToDeleteCallback = object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                itemAdapter.getItemAt(position).let {
+                    listViewModel.delete(it)
+                }
+            }
+        }
+
+        ItemTouchHelper(swipeToDeleteCallback).apply {
+            attachToRecyclerView(binding?.rvList)
+        }
+
 
         listViewModel.items.observe(viewLifecycleOwner, { items ->
             items?.let { itemAdapter.setItems(it) }

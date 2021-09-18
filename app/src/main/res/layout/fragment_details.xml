@@ -7,13 +7,13 @@
 
         <variable
             name="viewModel"
-            type="com.example.basekotlinapp.viewmodels.DetailViewModel" />
+            type="com.example.basekotlinapp.presentation.viewmodels.DetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".DetailsFragment">
+        tools:context=".presentation.ui.DetailsFragment">
 
         <ProgressBar
             android:id="@+id/pb_detail"

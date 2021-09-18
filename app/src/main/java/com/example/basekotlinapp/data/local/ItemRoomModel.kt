@@ -1,4 +1,4 @@
-package com.example.basekotlinapp.local
+package com.example.basekotlinapp.data.local
 
 import android.os.Parcelable
 import androidx.room.Entity
