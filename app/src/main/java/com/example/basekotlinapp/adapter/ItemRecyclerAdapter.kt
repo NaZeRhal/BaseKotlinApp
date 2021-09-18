@@ -25,9 +25,10 @@ class ItemRecyclerAdapter : RecyclerView.Adapter<ItemRecyclerAdapter.ItemViewHol
         RecyclerView.ViewHolder(binding.root) {
         fun bind(modelItem: ModelItem) {
             with(binding) {
-                tvCode.text = modelItem.code
-                tvName.text = modelItem.name
-                tvTitle.text = modelItem.title
+                tvFirstName.text = modelItem.firstName
+                tvLastName.text = modelItem.lastName
+                tvEmail.text = modelItem.email
+                tvPhone.text = modelItem.phone
 
                 root.setOnClickListener {
                     onItemClickListener?.onItemClick(modelItem.id)

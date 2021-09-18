@@ -7,42 +7,77 @@
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
     android:layout_marginEnd="8dp"
-    android:background="#F2FFFFCF"
+    android:backgroundTint="#F2F7F7E0"
     android:elevation="3dp"
     app:cardCornerRadius="5dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:layout_gravity="center">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tv_code"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/ll_name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="20"
-            android:gravity="center_horizontal"
-            android:textSize="20sp"
-            tools:text="code" />
+            android:layout_gravity="center"
+            android:padding="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="40"
-            android:gravity="center_horizontal"
-            android:textSize="20sp"
-            tools:text="title" />
+            <TextView
+                android:id="@+id/tv_first_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:textStyle="bold"
+                android:gravity="end"
+                android:layout_marginEnd="16dp"
+                android:textSize="18sp"
+                tools:text="First Name" />
 
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tv_last_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:textStyle="bold"
+                android:layout_marginStart="16dp"
+                android:gravity="start"
+                android:textSize="18sp"
+                tools:text="Last Name" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_info"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="40"
-            android:gravity="center_horizontal"
-            android:textSize="20sp"
-            tools:text="name" />
-    </LinearLayout>
+            android:layout_gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_name">
+
+            <TextView
+                android:id="@+id/tv_email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:gravity="end"
+                android:layout_marginEnd="16dp"
+                android:textSize="12sp"
+                tools:text="email" />
+
+            <TextView
+                android:id="@+id/tv_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:layout_marginStart="16dp"
+                android:gravity="start"
+                android:textSize="12sp"
+                tools:text="phone" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.cardview.widget.CardView>

@@ -1,12 +1,12 @@
 package com.example.basekotlinapp.repository
 
-import com.example.basekotlinapp.TAG
 import com.example.basekotlinapp.api.ModelApi
 import com.example.basekotlinapp.model.ModelItem
 import com.example.basekotlinapp.utils.Resource
 import com.example.basekotlinapp.utils.getResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import retrofit2.Response
 
 class ModelRepositoryImpl(private val modelApi: ModelApi) : ModelRepository {
 
@@ -52,7 +52,19 @@ class ModelRepositoryImpl(private val modelApi: ModelApi) : ModelRepository {
         )
         when (result) {
             is Resource.Success<Any> -> emit(Resource.Success(true))
-            else -> emit(Resource.Error<Any>(Throwable("Unable to add contact to remote data source")))
+            else -> emit(Resource.Error<Any>(Throwable("Unable to add item to remote data source")))
+        }
+    }
+
+    override fun updateItem(itemId: String, item: ModelItem): Flow<Resource<ModelItem>> = flow {
+        emit(Resource.Loading<ModelItem>())
+        val result = getResponse(
+            request = { modelApi.update(itemId, item) },
+            defaultErrorMessage = "Error updating item"
+        )
+        when (result) {
+            is Resource.Success<ModelItem> -> emit(Resource.Success(result.data))
+            else -> emit(Resource.Error<ModelItem>(Throwable("Unable to update item in remote data source")))
         }
     }
 }

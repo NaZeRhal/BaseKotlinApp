@@ -36,55 +36,77 @@
             android:padding="8dp">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_code"
+                android:id="@+id/til_first_name"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
+                app:boxBackgroundColor="#F2F7F7E0"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_code"
+                    android:id="@+id/et_first_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Code"
+                    android:hint="First Name"
                     android:inputType="text"
-                    android:text="@={viewModel.code}"
+                    android:text="@={viewModel.firstName}"
                     android:textSize="20sp"
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_title"
+                android:id="@+id/til_last_name"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
+                app:boxBackgroundColor="#F2F7F7E0"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_title"
+                    android:id="@+id/et_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Title"
+                    android:hint="Last Name"
                     android:inputType="text"
-                    android:text="@={viewModel.title}"
+                    android:text="@={viewModel.lastName}"
                     android:textSize="20sp"
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_name"
+                android:id="@+id/til_email"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxBackgroundColor="#F2F7F7E0"
+                android:layout_marginTop="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Email"
+                    android:inputType="text"
+                    android:text="@={viewModel.email}"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_phone"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                app:boxBackgroundColor="#F2F7F7E0"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_name"
+                    android:id="@+id/et_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Name"
+                    android:hint="Phone"
                     android:inputType="text"
-                    android:text="@={viewModel.name}"
+                    android:text="@={viewModel.phone}"
                     android:textSize="20sp"
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>

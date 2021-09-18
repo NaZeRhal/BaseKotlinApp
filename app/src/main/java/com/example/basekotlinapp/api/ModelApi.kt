@@ -11,7 +11,7 @@ interface ModelApi {
 
     suspend fun addItem(item: ModelItem): Response<Any>
 
-    suspend fun update(itemId: String, item: ModelItem): Response<Any>
+    suspend fun update(itemId: String, item: ModelItem): Response<ModelItem>
 
     suspend fun deleteItem(itemId: String): Response<Any>
 }
