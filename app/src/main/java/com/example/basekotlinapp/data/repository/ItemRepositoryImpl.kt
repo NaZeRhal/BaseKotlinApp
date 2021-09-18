@@ -12,8 +12,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
-class ModelRepositoryImpl(private val modelApi: ModelApi, private val itemDao: ItemDao) :
-    ModelRepository {
+class ItemRepositoryImpl(private val modelApi: ModelApi, private val itemDao: ItemDao) :
+    ItemRepository {
 
     override fun getItems(): Flow<ExecutionResult<List<ItemModel>>> = networkBoundResource(
         localQuery = { itemDao.findAll().map { ModelMapping.itemRoomToItemModel(it) } },

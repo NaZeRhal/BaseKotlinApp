@@ -1,4 +1,4 @@
-package com.example.basekotlinapp.utils
+package com.example.basekotlinapp.presentation.ui
 
 import android.content.Context
 import android.graphics.*

@@ -42,7 +42,7 @@ class DummyRemoteDb(private val context: Context) {
         var items = itemsLiveData.value ?: emptyList()
         val addedItemModel = itemModel.run {
             ItemModel(
-                id = Random.nextInt(0, 100).toString(),
+                id = Random.nextInt(0, 10000).toString(),
                 firstName = firstName,
                 lastName = lastName,
                 email = email,

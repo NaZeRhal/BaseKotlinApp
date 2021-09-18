@@ -4,15 +4,19 @@ import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.*
 import com.example.basekotlinapp.R
+import com.example.basekotlinapp.domain.usecases.AddItemUseCase
+import com.example.basekotlinapp.domain.usecases.GetItemByIdUseCase
+import com.example.basekotlinapp.domain.usecases.UpdateItemUseCase
 import com.example.basekotlinapp.model.ItemModel
-import com.example.basekotlinapp.data.repository.ModelRepository
 import com.example.basekotlinapp.utils.ExecutionResult
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class DetailViewModel(
     private val modelItemId: String?,
-    private val modelRepository: ModelRepository
+    private val addItemUseCase: AddItemUseCase,
+    private val updateItemUseCase: UpdateItemUseCase,
+    private val getItemByIdUseCase: GetItemByIdUseCase
 ) : ViewModel() {
 
     private val _modelItemId: MutableLiveData<String?> by lazy { MutableLiveData(modelItemId) }
@@ -24,7 +28,7 @@ class DetailViewModel(
         liveData {
             emit(true)
             if (id != null) {
-                modelRepository.getItemById(id).collect {
+                getItemByIdUseCase.execute(id).collect {
                     when (it) {
                         is ExecutionResult.Success -> setupFields(it.data)
                         is ExecutionResult.Error -> _errorMessage.value = it.error.message
@@ -66,7 +70,7 @@ class DetailViewModel(
 
     private fun update(itemModel: ItemModel) {
         viewModelScope.launch {
-            modelRepository.updateItem(itemModel).collect {
+            updateItemUseCase.execute(itemModel).collect {
                 if (it is ExecutionResult.Error) {
                     _errorMessage.value = it.error.message
                 }
@@ -77,7 +81,7 @@ class DetailViewModel(
 
     private fun add(itemModel: ItemModel) {
         viewModelScope.launch {
-            modelRepository.addItem(itemModel).collect {
+            addItemUseCase.execute(itemModel).collect {
                 if (it is ExecutionResult.Error) {
                     _errorMessage.value = it.error.message
                 }

@@ -11,7 +11,6 @@ import com.example.basekotlinapp.databinding.FragmentListBinding
 import com.example.basekotlinapp.presentation.adapter.ItemRecyclerAdapter
 import com.example.basekotlinapp.presentation.adapter.bindAdapter
 import com.example.basekotlinapp.presentation.viewmodels.ListViewModel
-import com.example.basekotlinapp.utils.SwipeToDeleteCallback
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.viewmodel.ext.android.viewModel
 
